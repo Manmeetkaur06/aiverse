@@ -17,7 +17,7 @@ pipeline {
         ENV_NAME = 'Aiverse-env'
 
         // Email settings
-        EMAIL_RECIPIENTS = "1999manmeetkaur@gmail.com" // Change to your email
+        EMAIL_RECIPIENTS = "mkn280106@gmail.com" // Change to your email
     }
 
     stages {
