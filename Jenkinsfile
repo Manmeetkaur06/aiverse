@@ -15,6 +15,9 @@ pipeline {
         S3_BUCKET = 'mypipelinebucket'
         APP_NAME = 'aiverse'
         ENV_NAME = 'Aiverse-env'
+
+        // Email settings
+        EMAIL_RECIPIENTS = "1999manmeetkaur@gmail.com" // Change to your email
     }
 
     stages {
@@ -76,5 +79,27 @@ pipeline {
             }
         }
     }
-}
 
+    post {
+        success {
+            emailext(
+                subject: "✅ Jenkins Build #${BUILD_NUMBER} Successful!",
+                body: """The Jenkins build has completed successfully.
+                         \n🔗 Job: ${env.JOB_NAME}
+                         \n🔢 Build: #${env.BUILD_NUMBER}
+                         \n🔗 View Build: ${env.BUILD_URL}""",
+                to: "${EMAIL_RECIPIENTS}"
+            )
+        }
+        failure {
+            emailext(
+                subject: "❌ Jenkins Build #${BUILD_NUMBER} Failed!",
+                body: """The Jenkins build has **FAILED**. Please check the logs.
+                         \n🔗 Job: ${env.JOB_NAME}
+                         \n🔢 Build: #${env.BUILD_NUMBER}
+                         \n🔗 View Build: ${env.BUILD_URL}""",
+                to: "${EMAIL_RECIPIENTS}"
+            )
+        }
+    }
+}
