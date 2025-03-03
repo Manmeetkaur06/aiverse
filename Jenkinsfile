@@ -16,8 +16,8 @@ pipeline {
         APP_NAME = 'aiverse'
         ENV_NAME = 'Aiverse-env'
 
-        // Email settings
-        EMAIL_RECIPIENTS = "mkn280106@gmail.com" // Change to your email
+        // Change this to your email
+        EMAIL_RECIPIENTS = "mkn280106@gmail.com"
     }
 
     stages {
@@ -81,23 +81,32 @@ pipeline {
     }
 
     post {
+        always {
+            echo "📧 Sending email notification..."
+        }
         success {
             emailext(
                 subject: "✅ Jenkins Build #${BUILD_NUMBER} Successful!",
-                body: """The Jenkins build has completed successfully.
-                         \n🔗 Job: ${env.JOB_NAME}
-                         \n🔢 Build: #${env.BUILD_NUMBER}
-                         \n🔗 View Build: ${env.BUILD_URL}""",
+                body: """
+                    The Jenkins build was successful. 🎉
+                    \n🔗 Job: ${env.JOB_NAME}
+                    \n🔢 Build: #${env.BUILD_NUMBER}
+                    \n🔗 View Build: ${env.BUILD_URL}
+                    \n✅ Deployment was successful!
+                """,
                 to: "${EMAIL_RECIPIENTS}"
             )
         }
         failure {
             emailext(
                 subject: "❌ Jenkins Build #${BUILD_NUMBER} Failed!",
-                body: """The Jenkins build has **FAILED**. Please check the logs.
-                         \n🔗 Job: ${env.JOB_NAME}
-                         \n🔢 Build: #${env.BUILD_NUMBER}
-                         \n🔗 View Build: ${env.BUILD_URL}""",
+                body: """
+                    The Jenkins build **FAILED**! ❌
+                    \n🔗 Job: ${env.JOB_NAME}
+                    \n🔢 Build: #${env.BUILD_NUMBER}
+                    \n🔗 View Build Logs: ${env.BUILD_URL}
+                    \n❗ Check the logs to fix the issue.
+                """,
                 to: "${EMAIL_RECIPIENTS}"
             )
         }
