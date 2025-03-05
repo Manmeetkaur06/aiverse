@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     triggers {
-        githubPush()  // Automatically triggers on GitHub push events
+        githubPush()  
     }
 
     environment {
@@ -11,13 +11,12 @@ pipeline {
         AWS_CLI_PATH = "/usr/bin"
         PATH = "${JAVA_HOME}/bin:${MAVEN_HOME}/bin:${AWS_CLI_PATH}:$PATH"
         SONARQUBE_CREDENTIALS = 'sonarqube'
-        
         S3_BUCKET = 'mypipelinebucket'
         APP_NAME = 'aiverse'
         ENV_NAME = 'Aiverse-env'
 
-        // Change this to your email
-        EMAIL_RECIPIENTS = "mkn280106@gmail.com"
+        
+        EMAIL_RECIPIENTS = "1999manmeetkaur@gmail.com"
     }
 
     stages {
